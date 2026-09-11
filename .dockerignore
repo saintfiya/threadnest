@@ -1,0 +1,13 @@
+.git
+.gitignore
+.vscode
+
+tmp/
+.test-tmp/
+*.exe
+*.log
+goweb_log*
+
+docker-compose*.yml
+Dockerfile
+wait-for.sh

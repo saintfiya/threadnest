@@ -1,0 +1,13 @@
+# Runtime output
+/goweb_log*
+/*.log
+
+# Local binaries and coverage output
+/goweb
+/bluebell
+/coverage.out
+/docs/onboaring
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store

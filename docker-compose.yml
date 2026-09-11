@@ -1,0 +1,40 @@
+services:
+  mysql8019:
+    image: mysql:8.0.19
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "goweb1"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis607:
+    image: redis:5.0.7
+    ports:
+      - "26379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  goweb_app:
+    build: .
+    environment:
+      MYSQL_HOST: mysql8019
+      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: root
+      REDIS_HOST: redis607
+      REDIS_PORT: 6379
+      AUTH_JWT_SECRET: local-development-only-secret-change-me
+    depends_on:
+      mysql8019:
+        condition: service_healthy
+      redis607:
+        condition: service_healthy
+    ports:
+      - "8887:8888"
