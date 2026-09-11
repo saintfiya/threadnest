@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"fmt"
-	"goweb/conf"
-	"goweb/models"
+	"threadnest/conf"
+	"threadnest/models"
 
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"

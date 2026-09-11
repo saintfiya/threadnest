@@ -2,8 +2,8 @@ package controller
 
 import (
 	"errors"
-	"goweb/logic"
-	"goweb/models"
+	"threadnest/logic"
+	"threadnest/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"

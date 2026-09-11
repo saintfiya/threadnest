@@ -6,7 +6,7 @@ tmp/
 .test-tmp/
 *.exe
 *.log
-goweb_log*
+*_log*
 
 docker-compose*.yml
 Dockerfile

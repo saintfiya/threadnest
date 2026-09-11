@@ -1,8 +1,8 @@
 package main
 
-// @title goweb API
+// @title ThreadNest API
 // @version 1.0
-// @description goweb 社区项目 API 文档
+// @description ThreadNest 社区讨论项目 API 文档
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name sssss61616@gmail.com
@@ -21,19 +21,19 @@ package main
 import (
 	"context"
 	"fmt"
-	"goweb/conf"
-	"goweb/controller"
-	"goweb/dao/mysql"
-	"goweb/dao/redis"
-	"goweb/logger"
-	"goweb/pkg/jwt"
-	"goweb/pkg/snowflake"
-	"goweb/router"
-	"goweb/setting"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"threadnest/conf"
+	"threadnest/controller"
+	"threadnest/dao/mysql"
+	"threadnest/dao/redis"
+	"threadnest/logger"
+	"threadnest/pkg/jwt"
+	"threadnest/pkg/snowflake"
+	"threadnest/router"
+	"threadnest/setting"
 	"time"
 
 	"go.uber.org/zap"

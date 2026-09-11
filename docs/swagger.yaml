@@ -1,5 +1,16 @@
 basePath: /api/v1
 definitions:
+  controller._ResponsePostDetailList:
+    properties:
+      code:
+        $ref: '#/definitions/controller.ResCode'
+      data:
+        items:
+          $ref: '#/definitions/models.ApiPostDetail'
+        type: array
+      msg:
+        type: string
+    type: object
   controller._ResponsePostList:
     properties:
       code:
@@ -48,6 +59,50 @@ definitions:
         $ref: '#/definitions/controller.ResCode'
       data: {}
       msg: {}
+    type: object
+  models.ApiPostDetail:
+    properties:
+      author_id:
+        type: integer
+      author_name:
+        description: 作者
+        type: string
+      community:
+        allOf:
+        - $ref: '#/definitions/models.Community'
+        description: 嵌入社区信息
+      community_id:
+        type: integer
+      content:
+        maxLength: 8192
+        type: string
+      create_time:
+        type: string
+      post_id:
+        type: integer
+      status:
+        type: integer
+      title:
+        maxLength: 128
+        type: string
+      vote_num:
+        description: 投票数
+        type: integer
+    required:
+    - community_id
+    - content
+    - title
+    type: object
+  models.Community:
+    properties:
+      community_id:
+        type: integer
+      community_name:
+        type: string
+      create_time:
+        type: string
+      introduction:
+        type: string
     type: object
   models.ParamLogin:
     properties:
@@ -122,12 +177,12 @@ info:
     email: support@swagger.io
     name: sssss61616@gmail.com
     url: http://www.swagger.io/support
-  description: goweb 社区项目 API 文档
+  description: ThreadNest 社区讨论项目 API 文档
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: goweb API
+  title: ThreadNest API
   version: "1.0"
 paths:
   /community:
@@ -236,24 +291,13 @@ paths:
     get:
       consumes:
       - application/json
-      description: 可按size和page分页查询帖子列表
+      description: 按发布时间分页查询帖子列表
       parameters:
-      - description: 可以为空
-        in: query
-        name: community_id
-        type: integer
-      - description: 排序依据
-        example: score
-        in: query
-        name: order
-        type: string
       - description: 页码
-        example: 1
         in: query
         name: page
         type: integer
-      - description: 每页数据量
-        example: 10
+      - description: 每页数量
         in: query
         name: size
         type: integer
@@ -265,6 +309,48 @@ paths:
           schema:
             $ref: '#/definitions/controller._ResponsePostList'
       summary: 帖子分页查询接口
+      tags:
+      - 帖子
+  /posts2:
+    get:
+      consumes:
+      - application/json
+      description: 可分页并按发布时间或热度排序，也可按社区过滤
+      parameters:
+      - description: 可以为空
+        in: query
+        name: community_id
+        type: integer
+      - description: 排序依据
+        enum:
+        - time
+        - score
+        example: score
+        in: query
+        name: order
+        type: string
+      - description: 页码
+        example: 1
+        in: query
+        maximum: 1000000
+        minimum: 1
+        name: page
+        type: integer
+      - description: 每页数据量
+        example: 10
+        in: query
+        maximum: 100
+        minimum: 1
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._ResponsePostDetailList'
+      summary: 升级版帖子列表接口
       tags:
       - 帖子
   /signup:

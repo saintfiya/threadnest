@@ -1,10 +1,10 @@
 package logic
 
 import (
-	"goweb/dao/mysql"
-	"goweb/models"
-	"goweb/pkg/jwt"
-	"goweb/pkg/snowflake"
+	"threadnest/dao/mysql"
+	"threadnest/models"
+	"threadnest/pkg/jwt"
+	"threadnest/pkg/snowflake"
 )
 
 var (

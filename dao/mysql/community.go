@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"errors"
-	"goweb/models"
+	"threadnest/models"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"

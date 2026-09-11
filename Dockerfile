@@ -13,26 +13,26 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN go build -trimpath -ldflags="-s -w" -o /tmp/goweb .
+RUN go build -trimpath -ldflags="-s -w" -o /tmp/threadnest .
 
 FROM alpine:3.23
 
 RUN apk add --no-cache ca-certificates tzdata \
-    && addgroup -S goweb \
-    && adduser -S -G goweb goweb \
+    && addgroup -S threadnest \
+    && adduser -S -G threadnest threadnest \
     && mkdir -p /app \
-    && chown goweb:goweb /app
+    && chown threadnest:threadnest /app
 
 ENV TZ=Asia/Shanghai
 
 WORKDIR /app
 
-COPY --from=builder --chown=goweb:goweb /tmp/goweb ./goweb
-COPY --chown=goweb:goweb conf ./conf
-COPY --chown=goweb:goweb static ./static
-COPY --chown=goweb:goweb templates ./templates
+COPY --from=builder --chown=threadnest:threadnest /tmp/threadnest ./threadnest
+COPY --chown=threadnest:threadnest conf ./conf
+COPY --chown=threadnest:threadnest static ./static
+COPY --chown=threadnest:threadnest templates ./templates
 
-USER goweb
+USER threadnest
 
 EXPOSE 8888
 
@@ -41,4 +41,4 @@ HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
 
 STOPSIGNAL SIGTERM
 
-ENTRYPOINT ["./goweb"]
+ENTRYPOINT ["./threadnest"]

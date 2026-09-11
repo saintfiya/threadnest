@@ -2,8 +2,8 @@ package setting
 
 import (
 	"fmt"
-	"goweb/conf"
 	"strings"
+	"threadnest/conf"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"

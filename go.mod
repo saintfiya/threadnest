@@ -1,4 +1,4 @@
-module goweb
+module threadnest
 
 go 1.25.4
 

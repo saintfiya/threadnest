@@ -1,9 +1,9 @@
 package middlewares
 
 import (
-	"goweb/controller"
-	"goweb/pkg/jwt"
 	"strings"
+	"threadnest/controller"
+	"threadnest/pkg/jwt"
 
 	"github.com/gin-gonic/gin"
 )

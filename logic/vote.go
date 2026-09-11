@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 	"errors"
-	"goweb/dao/redis"
-	"goweb/models"
 	"strconv"
+	"threadnest/dao/redis"
+	"threadnest/models"
 
 	"go.uber.org/zap"
 )

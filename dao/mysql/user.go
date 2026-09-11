@@ -5,7 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
-	"goweb/models"
+	"threadnest/models"
 
 	mysqlDriver "github.com/go-sql-driver/mysql"
 	"golang.org/x/crypto/bcrypt"

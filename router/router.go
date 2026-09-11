@@ -1,11 +1,11 @@
 package router
 
 import (
-	"goweb/controller"
-	_ "goweb/docs" // 千万不要忘了导入把你上一步生成的docs
-	"goweb/logger"
-	middlewares "goweb/middlerwares"
 	"net/http"
+	"threadnest/controller"
+	_ "threadnest/docs" // 千万不要忘了导入把你上一步生成的docs
+	"threadnest/logger"
+	middlewares "threadnest/middlerwares"
 
 	files "github.com/swaggo/files"
 	gs "github.com/swaggo/gin-swagger"
@@ -40,6 +40,7 @@ func SetupRouter(mode string) *gin.Engine {
 	v1.POST("/signup", controller.SignUpHandler)
 	v1.POST("/login", controller.LoginHandler)
 	v1.GET("/posts", controller.PostList)
+	v1.GET("/posts2", controller.GetPostListHandler2)
 	v1.Use(middlewares.JWTAuthMiddleware())
 	{
 		v1.GET("/community", controller.CommunityList)

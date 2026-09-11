@@ -2,9 +2,9 @@ package controller
 
 import (
 	"errors"
-	"goweb/logic"
-	"goweb/models"
 	"strconv"
+	"threadnest/logic"
+	"threadnest/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -53,13 +53,14 @@ func CreatePost(ctx *gin.Context) {
 	ResponseSuccess(ctx, nil)
 }
 
-// PostList 帖子分页查询接口
+// PostList 是旧版的纯 MySQL 列表实现。
 // @Summary 帖子分页查询接口
-// @Description 可按size和page分页查询帖子列表
+// @Description 按发布时间分页查询帖子列表
 // @Tags 帖子
 // @Accept application/json
 // @Produce application/json
-// @Param object query models.ParamPostList false "查询参数"
+// @Param page query int false "页码"
+// @Param size query int false "每页数量"
 // @Success 200 {object} _ResponsePostList
 // @Router /posts [get]
 func PostList(ctx *gin.Context) {
@@ -109,4 +110,39 @@ func GetPostByID(ctx *gin.Context) {
 
 	//返回响应
 	ResponseSuccess(ctx, post)
+}
+
+// GetPostListHandler2 返回带作者、社区和净投票数的帖子列表。
+// @Summary 升级版帖子列表接口
+// @Description 可分页并按发布时间或热度排序，也可按社区过滤
+// @Tags 帖子
+// @Accept application/json
+// @Produce application/json
+// @Param object query models.ParamPostList false "查询参数"
+// @Success 200 {object} _ResponsePostDetailList
+// @Router /posts2 [get]
+func GetPostListHandler2(ctx *gin.Context) {
+	params := &models.ParamPostList{
+		Page:  1,
+		Size:  10,
+		Order: models.OrderTime,
+	}
+	if err := ctx.ShouldBindQuery(params); err != nil {
+		zap.L().Error("ctx.ShouldBindQuery failed", zap.Error(err))
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			ResponseError(ctx, CodeInvalidParam)
+			return
+		}
+		ResponseErrorWithMsg(ctx, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		return
+	}
+
+	data, err := logic.GetPostList2(ctx.Request.Context(), params)
+	if err != nil {
+		zap.L().Error("logic.GetPostList2 failed", zap.Error(err))
+		ResponseError(ctx, CodeServerBusy)
+		return
+	}
+	ResponseSuccess(ctx, data)
 }

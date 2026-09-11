@@ -23,8 +23,8 @@ type ParamVote struct {
 
 // ParamPostList 获取帖子列表query string参数
 type ParamPostList struct {
-	CommunityID int64  `json:"community_id" form:"community_id"`   // 可以为空
-	Page        int64  `json:"page" form:"page" example:"1"`       // 页码
-	Size        int64  `json:"size" form:"size" example:"10"`      // 每页数据量
-	Order       string `json:"order" form:"order" example:"score"` // 排序依据
+	CommunityID int64  `json:"community_id" form:"community_id" binding:"omitempty,gt=0"`               // 可以为空
+	Page        int64  `json:"page" form:"page" binding:"omitempty,min=1,max=1000000" example:"1"`      // 页码
+	Size        int64  `json:"size" form:"size" binding:"omitempty,min=1,max=100" example:"10"`         // 每页数据量
+	Order       string `json:"order" form:"order" binding:"omitempty,oneof=time score" example:"score"` // 排序依据
 }

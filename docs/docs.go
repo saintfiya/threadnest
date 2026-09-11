@@ -193,7 +193,7 @@ const docTemplate = `{
         },
         "/posts": {
             "get": {
-                "description": "可按size和page分页查询帖子列表",
+                "description": "按发布时间分页查询帖子列表",
                 "consumes": [
                     "application/json"
                 ],
@@ -207,11 +207,52 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页数量",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._ResponsePostList"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts2": {
+            "get": {
+                "description": "可分页并按发布时间或热度排序，也可按社区过滤",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "帖子"
+                ],
+                "summary": "升级版帖子列表接口",
+                "parameters": [
+                    {
+                        "type": "integer",
                         "description": "可以为空",
                         "name": "community_id",
                         "in": "query"
                     },
                     {
+                        "enum": [
+                            "time",
+                            "score"
+                        ],
                         "type": "string",
                         "example": "score",
                         "description": "排序依据",
@@ -219,6 +260,8 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "maximum": 1000000,
+                        "minimum": 1,
                         "type": "integer",
                         "example": 1,
                         "description": "页码",
@@ -226,6 +269,8 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "maximum": 100,
+                        "minimum": 1,
                         "type": "integer",
                         "example": 10,
                         "description": "每页数据量",
@@ -237,7 +282,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller._ResponsePostList"
+                            "$ref": "#/definitions/controller._ResponsePostDetailList"
                         }
                     }
                 }
@@ -362,6 +407,23 @@ const docTemplate = `{
                 "msg": {}
             }
         },
+        "controller._ResponsePostDetailList": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "$ref": "#/definitions/controller.ResCode"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ApiPostDetail"
+                    }
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
         "controller._ResponsePostList": {
             "type": "object",
             "properties": {
@@ -382,6 +444,72 @@ const docTemplate = `{
                 },
                 "msg": {
                     "description": "提示信息",
+                    "type": "string"
+                }
+            }
+        },
+        "models.ApiPostDetail": {
+            "type": "object",
+            "required": [
+                "community_id",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "author_id": {
+                    "type": "integer"
+                },
+                "author_name": {
+                    "description": "作者",
+                    "type": "string"
+                },
+                "community": {
+                    "description": "嵌入社区信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.Community"
+                        }
+                    ]
+                },
+                "community_id": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string",
+                    "maxLength": 8192
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 128
+                },
+                "vote_num": {
+                    "description": "投票数",
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Community": {
+            "type": "object",
+            "properties": {
+                "community_id": {
+                    "type": "integer"
+                },
+                "community_name": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "introduction": {
                     "type": "string"
                 }
             }
@@ -496,8 +624,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "127.0.0.1:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "goweb API",
-	Description:      "goweb 社区项目 API 文档",
+	Title:            "ThreadNest API",
+	Description:      "ThreadNest 社区讨论项目 API 文档",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -2,8 +2,8 @@ package controller
 
 import (
 	"errors"
-	"goweb/logic"
 	"strconv"
+	"threadnest/logic"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

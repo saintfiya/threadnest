@@ -1,13 +1,13 @@
 package logger
 
 import (
-	"goweb/conf"
 	"net"
 	"net/http"
 	"net/http/httputil"
 	"os"
 	"runtime/debug"
 	"strings"
+	"threadnest/conf"
 	"time"
 
 	"github.com/gin-gonic/gin"

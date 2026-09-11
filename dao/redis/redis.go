@@ -3,7 +3,7 @@ package redis
 import (
 	"context"
 	"fmt"
-	"goweb/conf"
+	"threadnest/conf"
 
 	"github.com/redis/go-redis/v9"
 )

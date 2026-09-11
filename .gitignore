@@ -1,10 +1,11 @@
 # Runtime output
-/goweb_log*
+/*_log*
 /*.log
 
 # Local binaries and coverage output
-/goweb
-/bluebell
+/threadnest
+/*.exe
+/tmp/
 /coverage.out
 /docs/onboaring
 # Editor and OS files
