@@ -105,10 +105,5 @@ go vet ./...
 docker compose config --quiet
 ```
 
-更完整的项目说明见：
 
-- [`docs/onboarding/project-overview.md`](docs/onboarding/project-overview.md)
-- [`docs/onboarding/architecture.md`](docs/onboarding/architecture.md)
-- [`docs/onboarding/core-call-chains.md`](docs/onboarding/core-call-chains.md)
-- [`docs/onboarding/learning-roadmap.md`](docs/onboarding/learning-roadmap.md)
 
